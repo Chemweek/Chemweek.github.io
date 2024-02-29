@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>Chem Week Ticket Generator</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-image: url('https://i.postimg.cc/gkK2sc6s/2-tix-body-400-x-500-px.jpg'); /* Replace with the URL of your background photo */
+            background-size: cover;
+            background-position: center;
+        }
+
+        #ticket-container {
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(221, 208, 208, 0.1);
+            overflow: hidden;
+            width: 400px;
+            height: 600%
+            400px;
+            background-image: url('https://i.postimg.cc/cLDB8Sxk/3-header-body-400-x-600-px.jpg'); /* Replace with the URL of your background photo */
+            background-size: cover;
+            background-position: center;
+            text-align: center
+        }
+              
+
+        #ticketDetails {
+            flex: 1;
+            font-size: 25px; /* Adjust the font size as needed */
+            text-align: center; /* Adjust text alignment as needed */
+            margin: 20px; /* Adjust margin as needed */
+            margin-bottom: 20px;
+            line-height: 1;
+        }
+        #page-1 {
+            padding: 20px;
+            box-sizing: border-box;
+            text-align: center;
+        }
+
+        #page2 {
+            display: flex;
+            margin-top: 100px;
+            flex-direction: column;
+            align-items: center;
+            color: #fff;
+            justify-content: center; /* Center content vertically */
+            min-height: 100; /* Set minimum height to fill the viewport */
+        }
+
+        
+        #chemWeekTicket {
+            font-size: 24px; /* Adjust font size as needed */
+            color: #333; /* Text color */
+            gap: 30px;
+            margin-bottom: 20px;
+        }
+        
+        .subtext {
+            font-size: 14px; /* Adjust size as needed */
+            color: #fff; /* Adjust color as needed */
+        }
+
+        #infoForm {
+            display: flex;
+            margin-top: 100px;
+            flex-direction: column;
+            background-position: center;
+            gap: 30px;
+        }
+
+
+        input {
+            width: 100%;
+            height: 40px;
+            padding: 10px;
+            margin-bottom: 16px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        input, select {
+            width: 100%;
+            height: 40px;
+            padding: 10px;
+            border: 1px solid #000000;
+            border-radius: 5px;
+            background-color: rgba(255, 255, 255, 0.5);
+            width: 100%; 
+            margin-bottom: 15px;
+        }
+
+        #downloadButtonContainer {
+            margin-top: 40px; /* Increase margin to add more space between the details and button */
+        }          
+
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #eeff00;
+            color: #000000;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            bottom: 20px;
+        }
+
+        
+        button:hover {
+            background-color: #000000;
+            color: #fff; 
+        }
+    </style>
+</head>
+<body>
+
+    <div id="ticket-container">
+        <div id="titleBox">
+            <h1></h1>
+        </div>
+    
+        <div id="page1">
+            <div id="chemWeekTicket" style="color: #fff"></div>
+            <form id="infoForm">
+                <label for="name" style="color: #fff">Name:</label>
+                <input type="text" id="name" required placeholder="e.g., Juan Cruz" required style="background-color: rgba(255, 255, 255, 0.5);" >
+    
+                <label for="section" style="color: #fff">Year and Section:</label>
+                <select id="section" required style="background-color: rgba(255, 255, 255, 0.5);">
+                    <option value="" disabled selected>Select Year and Section</option>
+                    <option value="1-1">1-1</option>
+                    <option value="1-2">1-2</option>
+                    <option value="2-1">2-1</option>
+                    <option value="2-2">2-2</option>
+                    <option value="3-1">3-1</option>
+                    <option value="3-2">3-2</option>
+                    <option value="4-1">3-3</option>
+                    <option value="4-2">3-4</option>
+                    <!-- Add more options as needed -->
+                </select>
+    
+                <label for="team" style="color: #fff">Team:</label>
+                <select id="team" required style="background-color: rgba(255, 255, 255, 0.5);">
+                    <option value="" disabled selected>Select Team</option>
+                    <option value="DOPAMINE">DOPAMINE</option>
+                    <option value="MELATONIN">MELATONIN</option>
+                    <option value="OXYTOCIN">OXYTOCIN</option>
+                    <option value="CORTISOL">CORTISOL</option>
+                    <option value="ADRENALINE">ADRENALINE</option>                <!-- Add more options as needed -->
+                </select>
+    
+            <button type="button" onclick="generateTicket()">Generate Ticket</button>
+        </form>
+    </div>
+    
+
+            <div id="page2" style="display: none;">
+                <div id="ticketDetailsContainer">
+                    <h1>Your Chem Week Ticket Receipt</h1>
+                    <p class="subtext">Please download and show it at the event. Thank You!!.</p>
+                    <p id="ticketDetails"></p>
+                </div>
+                <div id="downloadButtonContainer">
+                    <button id="downloadBtn" onclick="downloadReceipt()">Download Receipt</button>
+                </div>
+            </div>
+         
+</div>
+
+<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+
+<script>
+    let referenceCode; // Declare a variable to store the reference code
+
+function generateTicket() {
+    const name = document.getElementById('name').value;
+    const section = document.getElementById('section').value;
+    const team = document.getElementById('team').value;
+
+    if (!name || !section || !team) {
+        alert('Please fill in all fields.');
+        return;
+    }
+
+    referenceCode = generateReferenceCode(); // Generate reference code once
+
+    const ticketDetails = `
+        <p style="margin-bottom: 4px;"><strong>Name:</strong><br>${name}</p>
+        <p style="margin-bottom: 4px;"><strong>Year and Section:</strong><br>${section}</p>
+        <p style="margin-bottom: 4px;"><strong>Team:</strong><br>${team}</p>
+        <p style="margin-bottom: 4px;"><strong>Reference Code:</strong><br>${referenceCode}</p>
+    `;
+
+    // Display ticket details
+    document.getElementById('page1').style.display = 'none';
+    document.getElementById('page2').style.display = 'block';
+    document.getElementById('titleBox').style.display = 'none';
+
+    // Display ticket details in receipt
+    document.getElementById('ticketDetails').innerHTML = ticketDetails;
+
+    // Send data to Google Sheet
+    sendToGoogleSheet(name, section, team, referenceCode);
+}
+
+function downloadReceipt() {
+    const ticketContainer = document.getElementById('ticket-container');
+    
+    // Define options for html2canvas
+    const options = {
+        logging: true, // Enable logging for debugging
+        scale: 2, // Adjust scale as needed for better image quality
+        backgroundColor: null, // Preserve the background color of the ticket container
+        useCORS: true // Enable cross-origin resource sharing
+    };
+
+    // Use html2canvas to capture the ticket container
+    html2canvas(ticketContainer, options).then(function(canvas) {
+        // Convert canvas to data URL
+        const imgData = canvas.toDataURL('image/png');
+        
+        // Create a temporary link element to download the image
+        const link = document.createElement('a');
+        link.href = imgData;
+        link.download = 'chem_week_receipt.png';
+        
+        // Simulate a click on the link to trigger the download
+        link.click();
+        
+        // Log download details to console
+        console.log("Receipt Downloaded:", link.download);
+        console.log("Receipt Data:", imgData);
+    });
+}
+
+
+
+
+function sendToGoogleSheet(name, section, team, referenceCode) {
+    const formData = new FormData();
+    formData.append('name', name);
+    formData.append('section', section);
+    formData.append('team', team);
+    formData.append('referenceCode', referenceCode);
+
+    // Set up the fetch request with 'Content-Type: application/x-www-form-urlencoded'
+    fetch('https://script.google.com/macros/s/AKfycbxGsyRturgBVU7HyXx5FvhGhoYnifDmSjHDJYOhqNsQmbdrZWJZfGONzP-iW5kwGNg/exec', {
+        method: 'POST',
+        body: formData,
+    })
+        .then(response => response.text())
+        .then(data => {
+            console.log('Success:', data);
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+}
+
+function generateReferenceCode() {
+    return Math.floor(10000000000 + Math.random() * 90000000000).toString();
+}
+</script>
+
+</body>
+</html>
