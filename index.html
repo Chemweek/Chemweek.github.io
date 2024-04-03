@@ -255,7 +255,7 @@ function sendToGoogleSheet(name, section, team, referenceCode) {
     formData.append('referenceCode', referenceCode);
 
     // Set up the fetch request with 'Content-Type: application/x-www-form-urlencoded'
-    fetch('https://script.google.com/macros/s/AKfycbxGsyRturgBVU7HyXx5FvhGhoYnifDmSjHDJYOhqNsQmbdrZWJZfGONzP-iW5kwGNg/exec', {
+    fetch('https://script.google.com/macros/s/AKfycbwiQrzTckx_qt6vaVYlwc532SqAAw1fn6EJvp9OT8wSC20tA7UXqA9k6ejwc4LJRD7s/exec', {
         method: 'POST',
         body: formData,
     })
